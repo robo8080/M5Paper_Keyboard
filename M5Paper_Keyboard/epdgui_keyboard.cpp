@@ -1,4 +1,5 @@
 #include "epdgui_keyboard.h"
+#include "keyboard_config.h"
 
 static const char* kKeyAlphaMapLowerCase[26] = {
     "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", //10
@@ -20,7 +21,7 @@ static const char* kKeyAlphaMapNumber[26] = {
 
 static const char* kKeyAlphaMapSymbol[26] = {
     "[", "]", "{", "}", "#", "%", "^", "*", "+", "=", //10
-       "_", "\\", "|", "~", "<", ">", "", "", "",   //9
+       "_", "\\", "|", "~", "<", ">", "`", "", "",   //9
 //       "_", "\\", "|", "~", "<", ">", "€", "£", "¥",   //9
             "", "", "", "", "", "", "",   //7
 //            "•", "✿", "\u221A", "\u221E", "\u2103", "\u2109", "\u2116",   //7
@@ -96,9 +97,15 @@ EPDGUI_Keyboard::EPDGUI_Keyboard(): EPDGUI_Base()
     _sw[kSWCase]->Canvas(0)->pushImage(_sw[kSWCase]->getW() / 2 - 16, _sw[kSWCase]->getH() / 2 - 16, 32, 32, ImageResource_upper_32x32);
     _sw[kSWCase]->Canvas(1)->pushImage(_sw[kSWCase]->getW() / 2 - 16, _sw[kSWCase]->getH() / 2 - 16, 32, 32, ImageResource_upper_32x32);
     _sw[kSWCase]->Canvas(1)->ReverseColor();
+#ifdef USE_BLE_KEYBOARD
+    _sw[kSWSwitch]->SetLabel(0, "Alt"); // 
+    _sw[kSWSwitch]->SetLabel(1, "Alt");
+    _sw[kSWSwitch]->Canvas(1)->ReverseColor();
+#else
     _sw[kSWSwitch]->SetLabel(0, "Fn"); //TODO: 
     _sw[kSWSwitch]->SetLabel(1, "Fn");
     _sw[kSWSwitch]->Canvas(1)->ReverseColor();
+#endif
     _sw[kSWNumber]->SetLabel(0, "123");
     _sw[kSWNumber]->SetLabel(1, "Abc");
     _sw[kSWCtrl]->SetLabel(0, "Ctrl");
@@ -210,7 +217,22 @@ void EPDGUI_Keyboard::UpdateState(int16_t x, int16_t y)
                 case kKeySpace: _data += " "; break;
                 case kKeyWrap: _data += "\n"; break;
                 case kKeyEsc: _data += "\0x1b"; break;
-                case kKeyCtrl: _sw[kSWCtrl]->UpdateState(-1, -1); break;
+                case kKeySwitch:
+                 _sw[kSWSwitch]->UpdateState(-1, -1);
+                 if(_sw[kSWSwitch]->getState() == 1) {
+                  _switchKey = 1;
+                 } else {
+                  _switchKey = -1;
+                 }
+                 break;
+                case kKeyCtrl:
+                 _sw[kSWCtrl]->UpdateState(-1, -1);
+                 if(_sw[kSWCtrl]->getState() == 1) {
+                  _ctrlKey = 1;
+                 } else {
+                  _ctrlKey = -1;
+                 }
+                 break;
                 case kKeyCase:
                 {
                     if(_layout == kLayoutNumber || _layout == kLayoutSymbol)
@@ -232,6 +254,11 @@ void EPDGUI_Keyboard::UpdateState(int16_t x, int16_t y)
                             }
                         }
                         _sw[kSWCase]->UpdateState(-1, -1);
+                        if(_sw[kSWCase]->getState() == 1) {
+                         _shiftKey = 1;
+                        } else {
+                         _shiftKey = -1;
+                        }
                         Draw(UPDATE_MODE_NONE);
                         M5.EPD.UpdateFull(UPDATE_MODE_GL16);
                     }
@@ -306,4 +333,23 @@ String EPDGUI_Keyboard::getData(void)
     String data = _data;
     _data = "";
     return data;   
+}
+
+int8_t EPDGUI_Keyboard::getCtrlKey(void)
+{
+    int8_t ctrlKey = _ctrlKey;
+    _ctrlKey = 0;
+    return ctrlKey;   
+}
+int8_t EPDGUI_Keyboard::getShiftKey(void)
+{
+    int8_t shiftKey = _shiftKey;
+    _shiftKey = 0;
+    return shiftKey;   
+}
+int8_t EPDGUI_Keyboard::getSwitchKey(void)
+{
+    int8_t switchKey = _switchKey;
+    _switchKey = 0;
+    return switchKey;   
 }

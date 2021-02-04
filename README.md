@@ -1,6 +1,7 @@
 # M5Paper_Keyboard
 M5Paper_Keyboard‚ÍAM5Paper‚Å“®‚­ƒVƒŠƒAƒ‹I/F‚ÌƒL[ƒ{[ƒh‚Å‚·B<br>
-‚±‚ê‚ÍAM5Paper_FactoryTest‚ÌƒL[ƒ{[ƒh‚Ìˆ—‚ğ”²‚«o‚µ‚Ä‰ü‘¢‚µ‚½‚à‚Ì‚Å‚·B<br><br>
+BLEƒL[ƒ{[ƒh‚É‚à‘Î‰‚µ‚Ü‚µ‚½B<br><br>
+‚±‚ê‚ÍAM5Paper_FactoryTest‚ÌƒL[ƒ{[ƒh‚Ìˆ—‚ğ”²‚«o‚µ‚Ä‰ü‘¢‚µ‚½‚à‚Ì‚Å‚·B<br>
 ƒx[ƒX‚É‚µ‚½ƒIƒŠƒWƒiƒ‹‚Í‚±‚¿‚çB<br>
 M5Paper_FactoryTest <https://github.com/m5stack/M5Paper_FactoryTest><br>
 
@@ -11,6 +12,8 @@ M5Paper_FactoryTest <https://github.com/m5stack/M5Paper_FactoryTest><br>
 * Arduino IDE (1.8.13‚Å“®ìŠm”F‚ğ‚µ‚Ü‚µ‚½B)<br>
 * [Arduino core for the ESP32](https://github.com/espressif/arduino-esp32 "Title")
 * [M5Paper Library](https://github.com/m5stack/M5EPD "Title")
+* [NimBLE-Arduino Library](https://github.com/h2zero/NimBLE-Arduino "Title") (BLEƒL[ƒ{[ƒh‚Æ‚µ‚Äg‚¤ê‡j
+* [ESP32 NimBLE Keyboard library](https://github.com/wakwak-koba/ESP32-NimBLE-Keyboard "Title") (BLEƒL[ƒ{[ƒh‚Æ‚µ‚Äg‚¤ê‡j
 <br>
 
 ƒ‰ƒCƒuƒ‰ƒŠ‚ÍArduino IDE‚Ì[ƒXƒPƒbƒ` | ƒ‰ƒCƒuƒ‰ƒŠ‚ğƒCƒ“ƒNƒ‹[ƒh |ƒ‰ƒCƒuƒ‰ƒŠ‚ğŠÇ—...] ‚©‚çƒCƒ“ƒXƒg[ƒ‹‚·‚é‚ÆŠÈ’P‚Å‚·B
@@ -54,5 +57,18 @@ M5Paper_Keyboard‚Ì“®ìŠm”F—p‚ÌM5StackƒvƒƒOƒ‰ƒ€(M5Stack_Serial2_test)‚ğ—pˆÓ‚µ‚Ä‚
 ![‰æ‘œ4](images/image4.png)<br><br>
 * ƒRƒlƒNƒ^‚Ì’Ü‚Ì•”•ª‚ğë‚Á‚½•¨‚Å‚¿ã‚°‚Ä‚â‚ê‚ÎƒP[ƒuƒ‹‚ÍŠÈ’P‚É”²‚¯‚Ü‚·B <br><br>
 ![‰æ‘œ5](images/image5.png)<br><br>
+<br>
+
+---
+
+### BLEƒL[ƒ{[ƒh‚Æ‚µ‚Äg‚¤ê‡ ###
+
+* "keyboard_config.h"‚Ì"#define USE_BLE_KEYBOARD"‚ÌƒRƒƒ“ƒg‚ğŠO‚µ‚Äƒrƒ‹ƒh‚µ‚Ü‚·B<br><br>
+![‰æ‘œ6](images/image6.png)<br><br>
+* "M5Paper-Keyboard"‚ÆƒyƒAƒŠƒ“ƒO‚µ‚Ü‚·B
+* ”¼Šp/‘SŠp‚ÌØ‚è‘Ö‚¦•û–@(Šm”F‚µ‚½‚à‚Ì)<br>
+iPhone11(iOS14) F [Ctrl] + [Space]<br>
+Android(FIRE HD 8) F [Shift] + [Space]<br>
+Windows 10 F [Alt] + [`]<br>
 <br><br>
 

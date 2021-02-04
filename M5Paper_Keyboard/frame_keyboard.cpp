@@ -1,4 +1,9 @@
 #include "frame_keyboard.h"
+#include "keyboard_config.h"
+#ifdef USE_BLE_KEYBOARD
+#include <BleKeyboard.h>
+extern BleKeyboard bleKeyboard;
+#endif
 
 //uint16_t textsize = 26;
 
@@ -76,6 +81,14 @@ int Frame_Keyboard::run(void)
     _canvas_title->drawString(buf, 498 - 10, 27+7);
     _canvas_title->fillRect(498 + 3, 8 + 10+7, px, 13, 15);
     // _bar->pushImage(498, 8, 32, 32, 2, ImageResource_status_bar_battery_charging_32x32);
+//    _canvas_title->pushImage(10, 15, 32, 32, 2, ImageResource_item_icon_success_32x32);
+
+#ifdef USE_BLE_KEYBOARD
+  if(bleKeyboard.isConnected()) {
+    bleKeyboard.setBatteryLevel((uint8_t)(battery * 100));
+    _canvas_title->pushImage(100, 15, 32, 32, 2, ImageResource_item_icon_success_32x32);
+  }
+#endif
 
 //    // Time
     rtc_time_t time_struct;
@@ -93,7 +106,31 @@ int Frame_Keyboard::run(void)
 
     String text = keyboard->getData();
     Serial.print(text);
+#ifdef USE_BLE_KEYBOARD
+  if(bleKeyboard.isConnected()) {
+      int8_t ctrlKey = keyboard->getCtrlKey();
+      if (ctrlKey > 0) {
+        bleKeyboard.press(KEY_LEFT_CTRL);
+      } else if(ctrlKey < 0) {
+        bleKeyboard.release(KEY_LEFT_CTRL);
+      }
+      int8_t switchKey = keyboard->getSwitchKey();
+      if (switchKey > 0) {
+        bleKeyboard.press(KEY_LEFT_ALT);
+      } else if(switchKey < 0) {
+        bleKeyboard.release(KEY_LEFT_ALT);
+      }
+      int8_t shiftKey = keyboard->getShiftKey();
+      if (shiftKey > 0) {
+        bleKeyboard.press(KEY_LEFT_SHIFT);
+      } else if(shiftKey < 0) {
+        bleKeyboard.release(KEY_LEFT_SHIFT);
+      }
+      bleKeyboard.print(text);
+  }
+#else
     Serial2.print(text);
+#endif
 //    inputbox->AddText(text);
 //    inputbox->AddText(keyboard->getData());
     return 1;

@@ -19,6 +19,9 @@ public:
     void Bind(int16_t event, void (* func_cb)(epdgui_args_vector_t&));
     void UpdateState(int16_t x, int16_t y);
     String getData(void);
+    int8_t getCtrlKey(void);
+    int8_t getShiftKey(void);
+    int8_t getSwitchKey(void);
 
 private:
 //    EPDGUI_Button *_btn[29];
@@ -29,6 +32,9 @@ private:
     EPDGUI_Base *_key[34];
     String _data;
     uint8_t _layout = 0;
+    int8_t _ctrlKey = 0;
+    int8_t _shiftKey = 0;
+    int8_t _switchKey = 0;
 
 public:
 
